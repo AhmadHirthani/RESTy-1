@@ -1,0 +1,66 @@
+form{
+    display: flex;
+    flex-direction: column;
+    // width: 30%;
+    // align-self: center;
+    align-items: center;
+    // justify-items: center;
+    #urlPanel{
+        label{
+            font-size: 120%;
+        }
+        input{
+            width: 150%;
+            height: 30px;
+            font-size: 120%;
+        }
+        button{
+            width: 80px;
+            height: 40px;
+        }
+    }
+    #requisPanel{
+        display: flex;
+        flex-direction: row;
+        margin-left: 20px;
+        margin-top: 20px;
+        button{
+            margin-left: 10px;
+            width: 80px;
+            height: 40px;
+        }
+
+    }
+}
+#resultBoard{
+    overflow: hidden;
+    margin-top: 3%;
+    margin-left: 36%;
+    height: 600px;
+    width: 60%;
+    background-color: gray;
+    border: 1px solid black;
+    box-shadow: 4px 4px 10px grey;
+    .urlDtl{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        border: 1px solid black;
+        padding: 5px;
+        .urlMethod{
+            color: maroon;
+            width: 10%;
+            // margin-right: 10px;
+        }
+        .urlItem{
+            color: white;
+        }
+    }
+}
+#resultBoard:hover{
+    overflow: scroll;
+}
+.urlDtl:hover{
+    // background-color: red;
+    background-color: #e6e6e6bb;
+}
