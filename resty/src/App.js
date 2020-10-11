@@ -1,26 +1,77 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Main from './main/main';
+import Footer from './footer/footer';
+import Header from './header/header';
+// import './appStyle/header.scss'
+// const Header = () => {
+//   return (
+//     <header>
+//       <style>@import './appStyle/header.scss';</style>
+//       <h1>React Demo!!!</h1>
+//     </header>
+//   )
+// };
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// const Footer = () => <footer>&copy 2020 401d4</footer>
+
+//Main
+// class Main extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state ={
+//       method : 'GET',
+//       url : '',
+//       hits:[]
+//     }
+//   }
+//   handleMethodclick = e => {
+//     let method = e.target.value;
+//     // update state.words
+//     this.setState({method}); // re-render 
+//   }
+//   handleGoClick = e => {
+//   // this.state.hits.push(<li key={this.state.hits.length+1}>{`${this.state.method} : ${this.state.url}`}</li>);
+//   this.state.hits.push(<li key={this.state.hits.length+1}>
+//     <div>
+//   <p id='urlMethod'>{this.state.method}</p>
+//   <p id='urlItem'>{this.state.url}</p>
+//     </div>
+//   </li>);
+//   let hits = this.state.hits
+//     // console.log(this.state.hits);
+//     this.setState({hits})
+//   }
+//   handleInput = e =>{
+//     let url = e.target.value
+//     this.setState({url})
+//   }
+//   render() {
+//     return (
+//       <div>
+//         <label>URL :{this.state.method} </label>
+//         <input onChange={this.handleInput} className='url' name= 'url' />
+//         <button onClick={this.handleGoClick}>Go !</button>
+//         <button value = 'GET' onClick={this.handleMethodclick}>GET</button>
+//         <button value = 'POST' onClick={this.handleMethodclick}>POST</button>
+//         <button value = 'PUT' onClick={this.handleMethodclick}>PUT</button>
+//         <button value = 'DELETE' onClick={this.handleMethodclick}>DELETE</button>
+//         <ul>{this.state.hits}</ul>
+//       </div>
+//     )
+//   }
+// }
+
+
+class App extends React.Component {
+  render() {
+    return (
+      <React.Fragment>
+        <Header/>
+        <Main/>
+        <Footer/>
+      </React.Fragment>
+    )
+  }
 }
 
 export default App;
