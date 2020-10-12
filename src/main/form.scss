@@ -32,12 +32,17 @@ form{
 
     }
 }
-#resultBoard{
+#board{
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+}
+#urltBoard{
     overflow: hidden;
     margin-top: 3%;
-    margin-left: 36%;
+    // margin-left: 36%;
     height: 600px;
-    width: 60%;
+    width: 50%;
     background-color: gray;
     border: 1px solid black;
     box-shadow: 4px 4px 10px grey;
@@ -57,9 +62,24 @@ form{
         }
     }
 }
+#urltBoard:hover{
+    overflow: scroll;
+}
+
+#resultBoard{
+    overflow: hidden;
+    margin-top: 3%;
+    // margin-left: 36%;
+    height: 600px;
+    width: 50%;
+    background-color: gray;
+    border: 1px solid black;
+    box-shadow: 4px 4px 10px grey;
+}
 #resultBoard:hover{
     overflow: scroll;
 }
+
 .urlDtl:hover{
     // background-color: red;
     background-color: #e6e6e6bb;
