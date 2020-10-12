@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/%7BRESTy%7D/static/css/main.cb69d847.chunk.css",
+    "main.js": "/%7BRESTy%7D/static/js/main.cc548428.chunk.js",
+    "main.js.map": "/%7BRESTy%7D/static/js/main.cc548428.chunk.js.map",
+    "runtime-main.js": "/%7BRESTy%7D/static/js/runtime-main.1ae28bb0.js",
+    "runtime-main.js.map": "/%7BRESTy%7D/static/js/runtime-main.1ae28bb0.js.map",
+    "static/js/2.25b57a3a.chunk.js": "/%7BRESTy%7D/static/js/2.25b57a3a.chunk.js",
+    "static/js/2.25b57a3a.chunk.js.map": "/%7BRESTy%7D/static/js/2.25b57a3a.chunk.js.map",
+    "index.html": "/%7BRESTy%7D/index.html",
+    "precache-manifest.18d14c71096ac77d6352a8eb1f7320f9.js": "/%7BRESTy%7D/precache-manifest.18d14c71096ac77d6352a8eb1f7320f9.js",
+    "service-worker.js": "/%7BRESTy%7D/service-worker.js",
+    "static/css/main.cb69d847.chunk.css.map": "/%7BRESTy%7D/static/css/main.cb69d847.chunk.css.map",
+    "static/js/2.25b57a3a.chunk.js.LICENSE.txt": "/%7BRESTy%7D/static/js/2.25b57a3a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1ae28bb0.js",
+    "static/js/2.25b57a3a.chunk.js",
+    "static/css/main.cb69d847.chunk.css",
+    "static/js/main.cc548428.chunk.js"
+  ]
+}
