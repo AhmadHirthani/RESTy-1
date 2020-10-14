@@ -2,6 +2,7 @@ import React from 'react';
 import Main from './main/main';
 import Footer from './footer/footer';
 import Header from './header/header';
+import {BrowserRouter} from 'react-router-dom'
 // import './appStyle/header.scss'
 // const Header = () => {
 //   return (
@@ -65,11 +66,11 @@ import Header from './header/header';
 class App extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        <Header/>
-        <Main/>
-        <Footer/>
-      </React.Fragment>
+      <BrowserRouter>
+      <Header/>
+      <Main/>
+      <Footer/>
+      </BrowserRouter>
     )
   }
 }
