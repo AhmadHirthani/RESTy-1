@@ -1,16 +1,33 @@
+$primary-color: maroon;
+$font-color: white;
+$secondary-color:navy;
+#main{
+    // z-index: 1;
+}
 form{
     display: flex;
     flex-direction: column;
-    // width: 30%;
-    // align-self: center;
     align-items: center;
-    // justify-items: center;
+    margin: 30px;
+    border: 1px solid gray;
+    width: 50%;
+    line-height: 60px;
+    box-shadow: 0px 0px 5px black;
+    padding: 10px;
+    // display: flex;
+    // flex-direction: column;
+    // // width: 30%;
+    // // align-self: center;
+    // align-items: center;
+    // margin-top: 10px;
+    // // justify-items: center;
     #urlPanel{
         label{
             font-size: 120%;
         }
         input{
-            width: 150%;
+            position: relative;
+            width: 100%;
             height: 30px;
             font-size: 120%;
         }
@@ -32,18 +49,21 @@ form{
 
     }
 }
+#mainDivs{
+    margin: 30px;
+}
 #board{
     display: flex;
     flex-direction: row;
-    margin: 30px;
 }
 #urltBoard{
     overflow: hidden;
     margin-top: 3%;
     // margin-left: 36%;
-    height: 600px;
-    width: 50%;
-    background-color: gray;
+    height: 500px;
+    width: 45%;
+    background-color: $secondary-color;
+    // background-color: gray;
     border: 1px solid black;
     box-shadow: 4px 4px 10px grey;
     .urlDtl{
@@ -54,6 +74,7 @@ form{
         padding: 5px;
         .urlMethod{
             color: maroon;
+            font-weight: bold;
             width: 10%;
             // margin-right: 10px;
         }
@@ -69,12 +90,14 @@ form{
 #resultBoard{
     overflow: hidden;
     margin-top: 3%;
-    // margin-left: 36%;
-    height: 600px;
-    width: 50%;
-    background-color: gray;
+    height: 500px;
+    width: 45%;
+    background-color: $secondary-color;
+    color: $font-color;
+    // background-color: gray;
     border: 1px solid black;
     box-shadow: 4px 4px 10px grey;
+    
 }
 #resultBoard:hover{
     overflow: scroll;
@@ -83,4 +106,16 @@ form{
 .urlDtl:hover{
     // background-color: red;
     background-color: #e6e6e6bb;
+    cursor: pointer;
+}
+
+#bodyBoard{
+    // margin: 30px;
+        textarea{
+            height: 400px;
+            width: 60%;
+            background-color: $secondary-color;
+            color: $font-color;
+            // background-color: gray;
+        }
 }
