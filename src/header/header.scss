@@ -1,9 +1,16 @@
+$primary-color: maroon;
+$font-color: white;
+$secondary-color:navy;
 *{
     padding: 0;
     margin: 0;
 }
 Header{
-    background-color: rgb(165, 165, 165);
+    background-color: $primary-color;
+    // background-color: rgb(165, 165, 165);
     text-align: center;
     padding: 1%;
+    h1{
+        color: $font-color;
+    }
 }
