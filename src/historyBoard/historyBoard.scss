@@ -1,0 +1,33 @@
+$primary-color: maroon;
+$font-color: white;
+$secondary-color:navy;
+#historyBoard{
+    overflow: hidden;
+    margin-top: 3%;
+    // margin-left: 36%;
+    height: 500px;
+    width: 45%;
+    background-color: $secondary-color;
+    // background-color: gray;
+    border: 1px solid black;
+    box-shadow: 4px 4px 10px grey;
+    .urlDtl{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        border: 1px solid black;
+        padding: 5px;
+        .urlMethod{
+            color: maroon;
+            font-weight: bold;
+            width: 10%;
+            // margin-right: 10px;
+        }
+        .urlItem{
+            color: white;
+        }
+    }
+}
+#historyBoard:hover{
+    overflow: scroll;
+}
