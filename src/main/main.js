@@ -7,6 +7,8 @@ import Result from './results';
 import InputBody from './inputBody';
 import Loader from '../loader'
 import UrlItem from '../urlItem/urlItem'
+import HistoryBoard from '../historyBoard/historyBoard'
+import { Route, Switch } from 'react-router-dom'
 
 
 class Main extends React.Component {
@@ -29,7 +31,8 @@ class Main extends React.Component {
      * @param {*} data 
      */
     async hitRequist(method, url, data) {
-        this.setState({ loading: true })
+        this.setState({ loading: true });
+        console.log('update1 :', this.state.loading);
         // Default options are marked with *
         let req = {
             method: method, // *GET, POST, PUT, DELETE, etc.
@@ -72,7 +75,7 @@ class Main extends React.Component {
      * @param {*} e 
      */
     handleUrlClick = (method, url, body) => {
-        console.log('00000000',url);
+        console.log('00000000', url);
         this.setState({ method, url, body })
     }
     handleGoClick = async e => {
@@ -85,11 +88,8 @@ class Main extends React.Component {
         // </li>);
         console.log('this.state.body', this.state.body);
         this.state.hits.push(<li key={this.state.hits.length + 1}>
-            <UrlItem onClick={this.handleUrlClick} method={this.state.method} url={this.state.url} body={this.state.body} />
-            {/* <div className='urlDtl'>
-                <p className='urlMethod'>{this.state.method}</p>
-                <p className='urlItem'>{this.state.url}</p>
-            </div> */}
+            <UrlItem reFillData={this.reFillRequist} onClick={this.handleUrlClick} method={this.state.method} url={this.state.url} body={this.state.body} />
+
         </li>);
         let hits = this.state.hits
         this.setState({ hits })
@@ -100,8 +100,9 @@ class Main extends React.Component {
                 result.json().then(result => {
                     console.log('after', result);
                     this.setState({ result, loading: false })
+                    console.log('update2 :', this.state.loading);
                     let hitsHistory = JSON.parse(localStorage.getItem('hitsHistory'));
-                    hitsHistory.push({method:this.state.method,url:this.state.url,body:this.state.body})
+                    hitsHistory.push({ method: this.state.method, url: this.state.url, body: this.state.body })
                     localStorage.setItem('hitsHistory', JSON.stringify(hitsHistory));
                 })
             } catch (error) {
@@ -146,29 +147,24 @@ class Main extends React.Component {
 
     componentDidMount() {
         console.log(JSON.parse(localStorage.getItem('hitsHistory')));
-        if(!JSON.parse(localStorage.getItem('hitsHistory'))){
-            localStorage.setItem('hitsHistory',JSON.stringify([]))
+        if (!JSON.parse(localStorage.getItem('hitsHistory'))) {
+            localStorage.setItem('hitsHistory', JSON.stringify([]))
         }
-        let hits = JSON.parse(localStorage.getItem('hitsHistory')).map((item,i)=>{
-            return(
-            <UrlItem key={i} onClick={this.handleUrlClick} method={item.method} url={item.url} body={item.body} />
+        let hits = JSON.parse(localStorage.getItem('hitsHistory')).map((item, i) => {
+            return (
+                <UrlItem reFillData={this.reFillRequist} key={i} onClick={this.handleUrlClick} method={item.method} url={item.url} body={item.body} />
             )
-                // console.log('-----------',item);
-            
+            // console.log('-----------',item);
+
         })
-        // let hits = JSON.parse(localStorage.getItem('hitsHistory')).map((i,hit)=>{
-        //     console.log('--------',hit);
-        //     return(
-        //     )
-        // })
-        // let hits = JSON.parse(localStorage.getItem('hitsHistory')).map((i,hit) =>{
-        //     console.log('ahmaddskjnksjnjksnf ------',hit);
-        //     return(
-        //     )
-        // })
-        console.log('after render ==== >',hits);
+
+        console.log('after render ==== >', hits);
         this.setState({ hits })
 
+    }
+
+    reFillRequist = (method,url,body) =>{
+        this.setState({method,url,body});
     }
 
     /**
@@ -177,32 +173,53 @@ class Main extends React.Component {
     render() {
         return (
             <div id='main'>
-                <div>
-                    <form>
-                        <div id='urlPanel'>
-                            <label htmlFor='url'>URL :{this.state.method} </label>
-                            <input value={this.state.url} onChange={this.handleInput} className='url' name='url' />
-                            <button onClick={this.handleGoClick}>Go !</button>
-                        </div>
-                        <div id='requisPanel'>
-                            <button value='GET' onClick={this.handleMethodclick}>GET</button>
-                            <button value='POST' onClick={this.handleMethodclick}>POST</button>
-                            <button value='PUT' onClick={this.handleMethodclick}>PUT</button>
-                            <button value='DELETE' onClick={this.handleMethodclick}>DELETE</button>
-                        </div>
-                    </form>
-                    <div id='mainDivs'>
-                        <InputBody text={this.state.body} body={this.handleBody} />
-                        <div id='board'>
-                            <div id='urltBoard'>
+                <Switch>
+                    <Route exact path="/">
+                        <div>
+                            <form>
+                                <div id='urlPanel'>
+                                    <label htmlFor='url'>URL :{this.state.method} </label>
+                                    <input value={this.state.url} onChange={this.handleInput} className='url' name='url' />
+                                    <button onClick={this.handleGoClick}>Go !</button>
+                                </div>
+                                <div id='requisPanel'>
+                                    <button value='GET' onClick={this.handleMethodclick}>GET</button>
+                                    <button value='POST' onClick={this.handleMethodclick}>POST</button>
+                                    <button value='PUT' onClick={this.handleMethodclick}>PUT</button>
+                                    <button value='DELETE' onClick={this.handleMethodclick}>DELETE</button>
+                                </div>
+                            </form>
+                            <div id='mainDivs'>
+                                <InputBody text={this.state.body} body={this.handleBody} />
+                                <div id='board'>
+                                    <HistoryBoard hits={this.state.hits} />
+                                    {/* <div id='urltBoard'>
                                 <ul>{this.state.hits}</ul>
-                            </div>
-                            <Result result={this.state.result} />
-                        </div>
+                            </div> */}
+                                    <Result result={this.state.result} />
+                                </div>
 
-                    </div>
-                </div>
-                <Loader loading={this.state.loading}></Loader>
+                            </div>
+                        </div>
+                        <Loader loading={this.state.loading}></Loader>
+                    </Route>
+                    <Route exact path="/history">
+                        <HistoryBoard hits={this.state.hits} />
+                    </Route>
+                    <Route exact path="/help">
+                        <div>
+                            <h1>Ahmad Shela</h1>
+                            <p> if you have any quastions contact me on :</p>
+                            <ul>
+                                <li><a href="https://github.com/AhmedShela">GitHub</a></li>
+                                <li><a href="https://www.linkedin.com/in/ahmad-shela/">LinkedIn</a></li>
+                                <li><a href="">Facebook</a></li>
+                            </ul>
+                        </div>
+                    </Route>
+                    <Route>404 Page Not Found!</Route>
+                </Switch>
+
             </div>
         )
     }

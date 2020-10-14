@@ -8,9 +8,27 @@ $secondary-color:navy;
 Header{
     background-color: $primary-color;
     // background-color: rgb(165, 165, 165);
-    text-align: center;
+    // text-align: center;
     padding: 1%;
     h1{
         color: $font-color;
+    }
+    #headernavList{
+        position: absolute;
+        top: 0;
+        right: 5%;
+        // left: 10px;
+        // text-align: end;
+        // border: 1px solid black;
+        display: flex;
+        flex-direction: row;
+        li{
+            display: block;
+            margin: 10px;
+            border: 1px solid black;
+            padding: 10px;
+            color: $font-color;
+            background-color: $secondary-color;
+        }
     }
 }
