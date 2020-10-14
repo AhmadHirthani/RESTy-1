@@ -3,7 +3,11 @@ import React from 'react';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import './form.scss'
 import ReactJson from 'react-json-view'
-import Result from '../results';
+import Result from './results';
+import InputBody from './inputBody';
+import Loader from '../loader'
+import UrlItem from '../urlItem/urlItem'
+
 
 class Main extends React.Component {
     constructor(props) {
@@ -12,76 +16,193 @@ class Main extends React.Component {
             method: 'GET',
             url: '',
             hits: [],
-            result: ''
+            result: '',
+            body: {},
+            loading: false
         }
     }
+
+    /**
+     * 
+     * @param {*} method 
+     * @param {*} url 
+     * @param {*} data 
+     */
+    async hitRequist(method, url, data) {
+        this.setState({ loading: true })
+        // Default options are marked with *
+        let req = {
+            method: method, // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        }
+
+        //check if the requist has body or if it is a GET requist
+        if (Object.keys(data).length > 0 && method != 'GET') {
+            console.log('klfklsnmdlfjnsjfnbdklfnsdlknflsdnfls', Object.keys(data).length);
+            req.body = data
+        }
+
+        console.log(method, url + data);
+        const response = await fetch(url, req);
+        console.log('response.json() >>> ', response);
+        return response; // parses JSON response into native JavaScript objects
+    }
+
+    /**
+     * 
+     * @param {*} e 
+     */
     handleMethodclick = e => {
         e.preventDefault();
         let method = e.target.value;
         // update state.words
         this.setState({ method }); // re-render 
     }
+
+    /**
+     * 
+     * @param {*} e 
+     */
+    handleUrlClick = (method, url, body) => {
+        console.log('00000000',url);
+        this.setState({ method, url, body })
+    }
     handleGoClick = async e => {
         e.preventDefault();
-        // this.state.hits.push(<li key={this.state.hits.length+1}>{`${this.state.method} : ${this.state.url}`}</li>);
+        // this.state.hits.push(<li key={this.state.hits.length + 1}>
+        //     <div className='urlDtl'>
+        //         <p className='urlMethod'>{this.state.method}</p>
+        //         <p className='urlItem'>{this.state.url}</p>
+        //     </div>
+        // </li>);
+        console.log('this.state.body', this.state.body);
         this.state.hits.push(<li key={this.state.hits.length + 1}>
-            <div className='urlDtl'>
+            <UrlItem onClick={this.handleUrlClick} method={this.state.method} url={this.state.url} body={this.state.body} />
+            {/* <div className='urlDtl'>
                 <p className='urlMethod'>{this.state.method}</p>
                 <p className='urlItem'>{this.state.url}</p>
-            </div>
+            </div> */}
         </li>);
         let hits = this.state.hits
-        // console.log(this.state.hits);
-        // this.setState({ hits })
+        this.setState({ hits })
 
-
-        // fitch the api data
-        let raw = await fetch(this.state.url);
-        let data = await raw.json();
-
-        // let raw = await fetch(this.state.url)
-        // let data = await raw.json
-        console.log(raw);
-        let head;
-        raw.headers.forEach(value => {
-            head = { 'Content-Type': value };
+        this.hitRequist(this.state.method, this.state.url, this.state.body).then(result => {
+            try {
+                console.log('before', result);
+                result.json().then(result => {
+                    console.log('after', result);
+                    this.setState({ result, loading: false })
+                    let hitsHistory = JSON.parse(localStorage.getItem('hitsHistory'));
+                    hitsHistory.push({method:this.state.method,url:this.state.url,body:this.state.body})
+                    localStorage.setItem('hitsHistory', JSON.stringify(hitsHistory));
+                })
+            } catch (error) {
+                console.log(error);
+            }
         })
-        let results = { Headers: head, Response: data };
-        // this.props.handler(results);
-        // let result = <div>{data}</div>
-        // let result = <ReactJson src={results} />
-        let result = results
-        this.setState({ hits, result })
     }
+
+    /**
+     * 
+     * @param {*} e 
+     */
     handleInput = e => {
         let url = e.target.value
         this.setState({ url })
     }
+
+    /**
+     * 
+     * @param {*} body 
+     */
+    handleBody = (body) => {
+        this.setState({ body })
+    }
+    /**
+     * {
+                "name": "ssssosososososos3",
+                "password": "1234",
+                "email": "user@11",
+                "nationalNo": 123,
+                "payPal": "paypal",
+                "dob": "2020-01-01T22:00:00.000Z",
+                "familyCount": 4,
+                "socialStatus": "single",
+                "income": 200,
+                "healthStatus": "good",
+                "healthDesc": "good",
+                "expencsies": 400,
+                "isActive":1
+            }
+     */
+
+    componentDidMount() {
+        console.log(JSON.parse(localStorage.getItem('hitsHistory')));
+        if(!JSON.parse(localStorage.getItem('hitsHistory'))){
+            localStorage.setItem('hitsHistory',JSON.stringify([]))
+        }
+        let hits = JSON.parse(localStorage.getItem('hitsHistory')).map((item,i)=>{
+            return(
+            <UrlItem key={i} onClick={this.handleUrlClick} method={item.method} url={item.url} body={item.body} />
+            )
+                // console.log('-----------',item);
+            
+        })
+        // let hits = JSON.parse(localStorage.getItem('hitsHistory')).map((i,hit)=>{
+        //     console.log('--------',hit);
+        //     return(
+        //     )
+        // })
+        // let hits = JSON.parse(localStorage.getItem('hitsHistory')).map((i,hit) =>{
+        //     console.log('ahmaddskjnksjnjksnf ------',hit);
+        //     return(
+        //     )
+        // })
+        console.log('after render ==== >',hits);
+        this.setState({ hits })
+
+    }
+
+    /**
+     * 
+     */
     render() {
         return (
-            <div>
-                <form>
-                    <div id='urlPanel'>
-                        <label htmlFor='url'>URL :{this.state.method} </label>
-                        <input onChange={this.handleInput} className='url' name='url' />
-                        <button onClick={this.handleGoClick}>Go !</button>
+            <div id='main'>
+                <div>
+                    <form>
+                        <div id='urlPanel'>
+                            <label htmlFor='url'>URL :{this.state.method} </label>
+                            <input value={this.state.url} onChange={this.handleInput} className='url' name='url' />
+                            <button onClick={this.handleGoClick}>Go !</button>
+                        </div>
+                        <div id='requisPanel'>
+                            <button value='GET' onClick={this.handleMethodclick}>GET</button>
+                            <button value='POST' onClick={this.handleMethodclick}>POST</button>
+                            <button value='PUT' onClick={this.handleMethodclick}>PUT</button>
+                            <button value='DELETE' onClick={this.handleMethodclick}>DELETE</button>
+                        </div>
+                    </form>
+                    <div id='mainDivs'>
+                        <InputBody text={this.state.body} body={this.handleBody} />
+                        <div id='board'>
+                            <div id='urltBoard'>
+                                <ul>{this.state.hits}</ul>
+                            </div>
+                            <Result result={this.state.result} />
+                        </div>
+
                     </div>
-                    <div id='requisPanel'>
-                        <button value='GET' onClick={this.handleMethodclick}>GET</button>
-                        <button value='POST' onClick={this.handleMethodclick}>POST</button>
-                        <button value='PUT' onClick={this.handleMethodclick}>PUT</button>
-                        <button value='DELETE' onClick={this.handleMethodclick}>DELETE</button>
-                    </div>
-                </form>
-                <div id='board'>
-                    <div id='urltBoard'>
-                        <ul>{this.state.hits}</ul>
-                    </div>
-                    <Result result={this.state.result}/>
-                    {/* <div id='resultBoard'>
-                        {this.state.result}
-                    </div> */}
                 </div>
+                <Loader loading={this.state.loading}></Loader>
             </div>
         )
     }
